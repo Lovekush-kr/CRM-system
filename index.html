@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRM SYSTEM </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="login-screen" class="login-screen">
+    <form id="login-form" class="login-box" novalidate>
+      <h1>CRM Login</h1>
+      <label for="login-email">Email / Username</label>
+      <input type="text" id="login-email" autocomplete="username">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" autocomplete="current-password">
+      <p id="login-error" class="form-error" role="alert"></p>
+      <button type="submit" class="btn">Login</button>
+      <p class="hint">Demo login: admin@crm.com / admin123</p>
+    </form>
+  </div>
+
+  <div id="app" class="app" hidden>
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <span class="brand">Simple CRM</span>
+        <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      </div>
+      <nav id="nav" class="nav">
+        <button class="nav-item active" data-section="dashboard">Dashboard</button>
+        <button class="nav-item" data-section="customers">Customers</button>
+        <button class="nav-item" data-section="leads">Leads</button>
+        <button class="nav-item" data-section="tasks">Tasks</button>
+        <button id="logout-btn" class="nav-item">Logout</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <section id="dashboard">
+        <h1>Dashboard</h1>
+        <div class="stats">
+          <div class="stat"><span>Total Customers</span><strong id="stat-customers"></strong></div>
+          <div class="stat"><span>Total Leads</span><strong id="stat-leads"></strong></div>
+          <div class="stat"><span>Total Sales</span><strong id="stat-sales"></strong></div>
+          <div class="stat"><span>Pending Tasks</span><strong id="stat-tasks"></strong></div>
+        </div>
+        <h2>Recent Activities</h2>
+        <ul id="activity-list" class="activities"></ul>
+      </section>
+
+      <section id="customers" hidden>
+        <div class="section-head">
+          <h1>Customers</h1>
+          <button id="add-customer-btn" class="btn small">Add Customer</button>
+        </div>
+        <div class="toolbar">
+          <input type="search" id="customer-search" placeholder="Search customers" aria-label="Search customers">
+          <select id="customer-status" aria-label="Filter by status">
+            <option value="all">All statuses</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>Status</th></tr>
+            </thead>
+            <tbody id="customer-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="leads" hidden>
+        <div class="section-head">
+          <h1>Leads</h1>
+          <button id="add-lead-btn" class="btn small">Add Lead</button>
+        </div>
+        <div class="toolbar">
+          <input type="search" id="lead-search" placeholder="Search leads" aria-label="Search leads">
+          <select id="lead-status" aria-label="Filter by status">
+            <option value="all">All statuses</option>
+            <option>New</option>
+            <option>Contacted</option>
+            <option>Converted</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Lead Name</th><th>Company</th><th>Contact</th><th>Status</th><th>Follow-up Date</th></tr>
+            </thead>
+            <tbody id="lead-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="tasks" hidden>
+        <h1>Tasks / Follow-ups</h1>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Task</th><th>Date</th><th>Priority</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody id="task-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <dialog id="customer-dialog">
+    <form id="customer-form">
+      <h2>Add Customer</h2>
+      <div class="form-grid">
+        <div>
+          <label for="c-name">Name</label>
+          <input type="text" id="c-name" name="name" required>
+        </div>
+        <div>
+          <label for="c-email">Email</label>
+          <input type="email" id="c-email" name="email" required>
+        </div>
+        <div>
+          <label for="c-phone">Phone</label>
+          <input type="tel" id="c-phone" name="phone" required>
+        </div>
+        <div>
+          <label for="c-company">Company</label>
+          <input type="text" id="c-company" name="company" required>
+        </div>
+        <div>
+          <label for="c-status">Status</label>
+          <select id="c-status" name="status">
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+      </div>
+      <p class="form-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn secondary" data-close>Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="lead-dialog">
+    <form id="lead-form">
+      <h2>Add Lead</h2>
+      <div class="form-grid">
+        <div>
+          <label for="l-name">Lead Name</label>
+          <input type="text" id="l-name" name="name" required>
+        </div>
+        <div>
+          <label for="l-company">Company</label>
+          <input type="text" id="l-company" name="company" required>
+        </div>
+        <div>
+          <label for="l-contact">Contact (email or phone)</label>
+          <input type="text" id="l-contact" name="contact" required>
+        </div>
+        <div>
+          <label for="l-status">Status</label>
+          <select id="l-status" name="status">
+            <option>New</option>
+            <option>Contacted</option>
+            <option>Converted</option>
+          </select>
+        </div>
+        <div>
+          <label for="l-date">Follow-up Date</label>
+          <input type="date" id="l-date" name="followUp" required>
+        </div>
+      </div>
+      <p class="form-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn secondary" data-close>Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
